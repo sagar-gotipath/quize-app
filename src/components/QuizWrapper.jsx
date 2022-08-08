@@ -39,3 +39,7 @@ const QuizWrapper = ({ item }) => {
 };
 
 export default QuizWrapper;
+
+// border-green-400 bg-green-600/20 --- right answer
+
+// border-red-400 bg-red-600/20 ---> wrong answer
