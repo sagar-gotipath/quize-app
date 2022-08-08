@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Certificate from "./components/Certificate";
+import QuizWrapper from "./components/QuizWrapper";
+import UserForm from "./components/UserForm";
+import Video from "./components/Video";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="container">
+            <Video />
+            <UserForm />
+            <QuizWrapper />
+            <Certificate />
+        </div>
+    );
 }
 
 export default App;
