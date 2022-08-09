@@ -32,7 +32,7 @@ const Certificate = () => {
       }
     }
     if (userInfoForStore.phoneNumber !== '') {
-      //   saveInDb(userInfoForStore)
+      saveInDb(userInfoForStore)
     }
   }, [])
   return (
