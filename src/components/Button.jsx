@@ -5,6 +5,7 @@ const Button = ({
     children,
     className = "bg-orange-600",
     onClick = () => {},
+    type = "button",
 }) => {
     return (
         <button

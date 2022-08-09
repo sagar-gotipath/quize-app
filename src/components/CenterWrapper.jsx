@@ -1,7 +1,7 @@
 import React from "react";
 
 const CenterWrapper = ({ children }) => {
-    return <div className="max-w-screen-lg mx-auto py-10">{children}</div>;
+    return <div className="max-w-screen-lg py-5 mx-auto">{children}</div>;
 };
 
 export default CenterWrapper;

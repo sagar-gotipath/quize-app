@@ -1,14 +1,18 @@
+root {
+  --plyr-badge-border-radius: '4px';
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    body {
-        @apply bg-neutral-100;
-    }
+  body {
+    @apply bg-neutral-100;
+  }
 }
 
 @layer utilities {
-    .name-input {
-    }
+  .name-input {
+  }
 }
