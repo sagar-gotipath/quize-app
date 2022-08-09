@@ -43,11 +43,13 @@ const Certificate = () => {
         <h2 className="text-xl">আপনার সার্টিফিকেট</h2>
       </article>
       <div className="p-4 lg:p-0">
-        <img
-          src="/assets/images/certificate.png"
-          alt="certificate"
-          className="max-w-[646px] h-auto object-cover mx-auto lg:mb-8 mb-4 w-full"
-        />
+        <div className="lg:h-[460px]">
+          <img
+            src="/assets/images/certificate.png"
+            alt="certificate"
+            className="max-w-[646px] max-h-[460px] h-auto object-cover mx-auto lg:mb-8 mb-4 w-full"
+          />
+        </div>
       </div>
       <div className="flex flex-col mt-0 space-y-3 lg:space-y-0 lg:mt-8 lg:space-x-6 lg:justify-center lg:flex-row">
         <div>
