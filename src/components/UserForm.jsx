@@ -7,7 +7,7 @@ import CenterWrapper from './CenterWrapper'
 const defaultUserInfo = { name: '', phoneNumber: '' }
 
 const UserForm = () => {
-  const { setComponentIndex } = useContext(AppContext)
+  const { setComponentIndex, handleUserData } = useContext(AppContext)
   const [userInfo, setUserInfo] = useState(defaultUserInfo)
 
   // handler functions
@@ -19,8 +19,7 @@ const UserForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    console.log(userInfo)
+    handleUserData(userInfo)
     setUserInfo(defaultUserInfo)
     setComponentIndex(1)
   }
@@ -59,7 +58,7 @@ const UserForm = () => {
             onChange={handleChange}
             placeholder="ফোন নাম্বার"
             pattern="\d*"
-            maxlength="11"
+            maxLength="11"
             minLength="11"
             onInvalid={(e) => e.target.setCustomValidity('Enter your 11 digit phone number')}
             onInput={(e) => e.target.setCustomValidity('')}
@@ -76,9 +75,13 @@ const UserForm = () => {
         <Button type="submit">অংশগ্রহণ করুন</Button>
       </form>
 
-      <div className="flex justify-center my-10 space-x-5">
-        <img src="/assets/images/deepto_logo.png" alt="deepto TV logo" className="w-[130px] h-auto" />
-        <img src="/assets/images/gotipath_logo.png" alt="deepto TV logo" className="w-[130px] h-auto" />
+      <div className="flex items-center justify-center my-10 space-x-10">
+        <div>
+          <img src="/assets/images/deepto_logo.png" alt="deepto TV logo" className="w-auto h-auto" />
+        </div>
+        <div>
+          <img src="/assets/images/gotipath_logo.png" alt="deepto TV logo" className="w-auto h-auto" />
+        </div>
       </div>
     </CenterWrapper>
   )

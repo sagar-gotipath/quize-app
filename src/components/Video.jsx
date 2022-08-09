@@ -45,7 +45,7 @@ const Video = ({ src }) => {
               frameBorder="0"
               allow="autoplay;"
               allowFullScreen
-              resetOnEnd
+              resetonend="true"
             ></iframe>
           </div>
         </div>
