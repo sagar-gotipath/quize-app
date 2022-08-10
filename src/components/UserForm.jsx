@@ -25,7 +25,6 @@ const UserForm = () => {
       setUserInfo({ ...userInfo, userPhoto: e.target.result })
     }
     reader.readAsDataURL(file)
-    console.log(reader)
   }
 
   const handleSubmit = (e) => {
