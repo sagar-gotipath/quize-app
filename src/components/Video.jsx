@@ -72,6 +72,14 @@ const Video = ({ src }) => {
             </button>
           )}
         </div>
+        <button
+          className={clsx(
+            'bg-orange-600 tex text-white w-[250px] py-2.5 rounded-3xl mx-auto block transition cursor-pointer'
+          )}
+          onClick={handleVideoEnded}
+        >
+          কুইজ শুরু করুন
+        </button>
       </CenterWrapper>
     </div>
   )

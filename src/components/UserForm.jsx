@@ -4,7 +4,7 @@ import { AppContext } from '../App'
 import Button from './Button'
 import CenterWrapper from './CenterWrapper'
 
-const defaultUserInfo = { name: '', phoneNumber: '' }
+const defaultUserInfo = { name: '', phoneNumber: '', userPhoto: null, imageName: '' }
 
 const UserForm = () => {
   const { setComponentIndex, handleUserData } = useContext(AppContext)
@@ -12,16 +12,29 @@ const UserForm = () => {
 
   // handler functions
   const handleChange = (e) => {
-    if ([e.target.name] === 'phoneNumber') {
+    if (e.target.name === 'userPhoto') {
+      readUploadedImage(e.target.files[0])
+    } else {
+      setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
     }
-    setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+  }
+
+  const readUploadedImage = (file) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setUserInfo({ ...userInfo, userPhoto: e.target.result })
+    }
+    reader.readAsDataURL(file)
+    console.log(reader)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log(userInfo)
     handleUserData(userInfo)
-    setUserInfo(defaultUserInfo)
     setComponentIndex(1)
+    // reseting the user input fields
+    setUserInfo(defaultUserInfo)
   }
   return (
     <CenterWrapper>
@@ -44,7 +57,7 @@ const UserForm = () => {
           />
           <label
             htmlFor="name"
-            className="absolute px-2 text-gray-400 transition-all bg-white left-7 -top-2.5 peer-placeholder-shown:top-3 peer-placeholder-shown:px-0-1 peer-placeholder-shown:bg-transparent text-sm peer-placeholder-shown:text-base"
+            className="absolute px-2 text-gray-400 transition-all bg-white left-7 -top-2.5 peer-placeholder-shown:top-3 peer-placeholder-shown:px-0-1 peer-placeholder-shown:bg-transparent text-sm peer-placeholder-shown:text-base cursor-text"
           >
             নাম
           </label>
@@ -67,9 +80,28 @@ const UserForm = () => {
           />
           <label
             htmlFor="phoneNumber"
-            className="absolute px-2 text-gray-400 transition-all bg-white left-7 -top-2.5 peer-placeholder-shown:top-3 peer-placeholder-shown:px-0-1 peer-placeholder-shown:bg-transparent text-sm peer-placeholder-shown:text-base"
+            className="absolute px-2 text-gray-400 transition-all bg-white left-7 -top-2.5 peer-placeholder-shown:top-3 peer-placeholder-shown:px-0-1 peer-placeholder-shown:bg-transparent text-sm peer-placeholder-shown:text-base cursor-text"
           >
             ফোন নাম্বার
+          </label>
+        </div>
+
+        <div className="flex items-center space-x-6">
+          <div className="shrink-0">
+            <img
+              className="object-cover w-16 h-16 rounded-full"
+              src={userInfo.userPhoto || '/assets/images/avatar.svg'}
+              alt={userInfo.name}
+            />
+          </div>
+          <label className="block">
+            <span className="sr-only">Choose profile photo</span>
+            <input
+              type="file"
+              name="userPhoto"
+              onChange={handleChange}
+              className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 "
+            />
           </label>
         </div>
         <Button type="submit">অংশগ্রহণ করুন</Button>

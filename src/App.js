@@ -41,6 +41,7 @@ function App() {
           {/* shareable link */}
 
           <Route path=":user-slug" element={<Navigate to="/" replace />}></Route>
+          <Route path="test" element={<Certificate />}></Route>
         </Routes>
       </BrowserRouter>
     </AppContext.Provider>
