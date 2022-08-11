@@ -3,12 +3,12 @@ import { Menu, Transition } from '@headlessui/react'
 import { FiFacebook, FiLink, FiShare2, FiTwitch, FiTwitter } from 'react-icons/fi'
 import { useLocation } from 'react-router-dom'
 
-function SharePage({ children, urlExtention }) {
+function SharePage({ children }) {
   const location = useLocation()
 
   const [hasNativeShare, setHasNativeShare] = useState(false)
 
-  const pageUrl = process.env.REACT_APP_APP_BASE_URL + location.pathname + '/' + urlExtention
+  const pageUrl = process.env.REACT_APP_APP_BASE_URL + location.pathname
 
   function copyURL() {
     window.navigator?.clipboard.writeText(pageUrl)

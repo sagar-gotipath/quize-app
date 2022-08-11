@@ -4,7 +4,7 @@ import { AppContext } from '../App'
 import Button from './Button'
 import CenterWrapper from './CenterWrapper'
 
-const defaultUserInfo = { name: '', phoneNumber: '', userPhoto: null, imageName: '', slug: '' }
+const defaultUserInfo = { name: '', phoneNumber: '', userPhoto: null, imageName: '', uid: '' }
 
 const UserForm = () => {
   const { setComponentIndex, handleUserData } = useContext(AppContext)

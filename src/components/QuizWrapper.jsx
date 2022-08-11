@@ -1,3 +1,4 @@
+import { uid } from 'uid'
 import clsx from 'clsx'
 import React from 'react'
 import { useRef } from 'react'
@@ -11,11 +12,13 @@ import Certificate from './Certificate'
 const banglaNumericValue = ['১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '১০', '১১', '১২', '১৩', '১৪']
 
 const QuizWrapper = ({ Quizes }) => {
-  const { userInfoForStore } = useContext(AppContext)
+  const { setUserInfoToStore } = useContext(AppContext)
   const [quizIndex, setQuizIndex] = useState(0)
   const [correctAnsIndex, setCorrectAnsIndex] = useState(null)
   const [wrongAnsIndex, setWrongAnsIndex] = useState(null)
   const [isHint, setIsHint] = useState(false)
+
+  const uidString = uid(32)
 
   // handler function
   const handleCheckAnswer = (ansIndex) => {
@@ -82,7 +85,7 @@ const QuizWrapper = ({ Quizes }) => {
         </>
       )}
 
-      {quizIndex >= Quizes.length && <Navigate to={`user/${userInfoForStore.slug}`} />}
+      {quizIndex >= Quizes.length && <Navigate to={`certificate/${uidString}`} state="/" />}
     </CenterWrapper>
   )
 }
