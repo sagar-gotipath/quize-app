@@ -85,7 +85,7 @@ const QuizWrapper = ({ Quizes }) => {
         </>
       )}
 
-      {quizIndex >= Quizes.length && <Navigate to={`certificate/${uidString}`} state="/" />}
+      {quizIndex >= Quizes.length && <Navigate to={`/certificate/${uidString}`} state="/" />}
     </CenterWrapper>
   )
 }
