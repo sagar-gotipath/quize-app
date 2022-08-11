@@ -5,10 +5,12 @@ import { useEffect, useMemo } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
 import { useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 import { AppContext } from '../App'
 import { db } from '../firebase.config'
 import Button from './Button'
 import CenterWrapper from './CenterWrapper'
+import SharePage from './SharePage'
 
 const Certificate = () => {
   const imageNode = useRef()
@@ -18,9 +20,10 @@ const Certificate = () => {
   const [isError, setIsError] = useState(false)
   const [certificateData, setCertficateData] = useState(null)
 
-  // generat image
+  const imageName = userInfoForStore.name + '_certificate_' + Date.now()
+
+  // generate image
   useEffect(() => {
-    console.log(userInfoForStore)
     setTimeout(() => {
       domtoimage
         .toPng(imageNode.current)
@@ -37,28 +40,29 @@ const Certificate = () => {
     }, 500)
   }, [])
 
-  // useEffect(() => {
-  //   // save user info into firestore
-  //   const saveInDb = async (userData) => {
-  //     try {
-  //       setIsUserInfoSaved(false)
-  //       setIsError(false)
-  //       const docRef = await addDoc(collection(db, 'users'), {
-  //         name: userData.name,
-  //         phoneNumber: userData.phoneNumber,
-  //         imageUrl: '',
-  //       })
-  //       console.log(docRef.id)
-  //       setIsUserInfoSaved(true)
-  //     } catch (e) {
-  //       console.error('Error adding document: ', e)
-  //       setIsError(true)
-  //     }
-  //   }
-  //   if (userInfoForStore.phoneNumber !== '') {
-  //     saveInDb(userInfoForStore)
-  //   }
-  // }, [])
+  useEffect(() => {
+    // save user info into firestore
+    const saveInDb = async (userData) => {
+      try {
+        setIsUserInfoSaved(false)
+        setIsError(false)
+        const docRef = await addDoc(collection(db, 'users'), {
+          name: userData.name,
+          phoneNumber: userData.phoneNumber,
+          imageUrl: imageName,
+        })
+        console.log(docRef.id)
+        setIsUserInfoSaved(true)
+      } catch (e) {
+        console.error('Error adding document: ', e)
+        setIsError(true)
+      }
+    }
+    if (userInfoForStore.phoneNumber !== '') {
+      saveInDb(userInfoForStore)
+    }
+  }, [])
+
   return (
     <CenterWrapper>
       <img src="/assets/images/mujib.png" alt="mujib logo" className="block w-24 mx-auto mb-8" />
@@ -88,19 +92,19 @@ const Certificate = () => {
       <div className="flex flex-col mt-0 space-y-3 lg:space-y-0 lg:mt-8 lg:space-x-6 lg:justify-center lg:flex-row">
         <div>
           <Button className="flex items-center justify-center bg-orange-600">
-            <a href={certificateData} download={userInfoForStore.name + '_certificate'}>
+            <a href={certificateData} download={imageName}>
               ডাউনলোড করুন
             </a>
             <img src="/assets/images/download_icon.svg" alt="download icon" className="w-4 inline-block ml-1.5" />
           </Button>
         </div>
         <div>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">
+          <SharePage urlExtention={imageName}>
             <Button className="flex items-center justify-center bg-blue-800">
               শেয়ার করুন
               <img src="/assets/images/share_icon.svg" alt="share icon" className="w-4 inline-block ml-1.5" />
             </Button>
-          </a>
+          </SharePage>
         </div>
       </div>
     </CenterWrapper>

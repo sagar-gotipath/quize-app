@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import Certificate from './components/Certificate'
 import QuizWrapper from './components/QuizWrapper'
+import ShareCertificate from './components/ShareCertificate'
 import UserForm from './components/UserForm'
 import Video from './components/Video'
 import quizes from './data/quizes'
@@ -40,8 +41,9 @@ function App() {
 
           {/* shareable link */}
 
-          <Route path=":user-slug" element={<Navigate to="/" replace />}></Route>
-          <Route path="test" element={<Certificate />}></Route>
+          <Route path="user/:userslug" element={<Certificate />}></Route>
+          <Route path="user/:userslug/:imagename" element={<ShareCertificate />}></Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AppContext.Provider>

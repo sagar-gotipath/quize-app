@@ -1,13 +1,17 @@
 import clsx from 'clsx'
 import React from 'react'
 import { useRef } from 'react'
+import { useContext } from 'react'
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import { AppContext } from '../App'
 import CenterWrapper from './CenterWrapper'
 import Certificate from './Certificate'
 
 const banglaNumericValue = ['১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '১০', '১১', '১২', '১৩', '১৪']
 
 const QuizWrapper = ({ Quizes }) => {
+  const { userInfoForStore } = useContext(AppContext)
   const [quizIndex, setQuizIndex] = useState(0)
   const [correctAnsIndex, setCorrectAnsIndex] = useState(null)
   const [wrongAnsIndex, setWrongAnsIndex] = useState(null)
@@ -78,7 +82,7 @@ const QuizWrapper = ({ Quizes }) => {
         </>
       )}
 
-      {quizIndex >= Quizes.length && <Certificate />}
+      {quizIndex >= Quizes.length && <Navigate to={`user/${userInfoForStore.slug}`} />}
     </CenterWrapper>
   )
 }

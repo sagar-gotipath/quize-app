@@ -4,7 +4,7 @@ import { AppContext } from '../App'
 import Button from './Button'
 import CenterWrapper from './CenterWrapper'
 
-const defaultUserInfo = { name: '', phoneNumber: '', userPhoto: null, imageName: '' }
+const defaultUserInfo = { name: '', phoneNumber: '', userPhoto: null, imageName: '', slug: '' }
 
 const UserForm = () => {
   const { setComponentIndex, handleUserData } = useContext(AppContext)
@@ -29,7 +29,7 @@ const UserForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(userInfo)
+    userInfo.slug = userInfo.name.trim().split(' ').join('-')
     handleUserData(userInfo)
     setComponentIndex(1)
     // reseting the user input fields
@@ -49,7 +49,7 @@ const UserForm = () => {
             onChange={handleChange}
             placeholder="নাম"
             required
-            pattern="[A-Za-z]+"
+            pattern="[A-Za-z\\w]+"
             onInvalid={(e) => e.target.setCustomValidity('Enter your name without special charecter')}
             onInput={(e) => e.target.setCustomValidity('')}
             className="relative w-full py-3 placeholder-transparent transition bg-transparent border px-7 border-neutral-400 rounded-3xl focus:outline-none peer"
