@@ -42,7 +42,7 @@ function App() {
           {/* shareable link */}
 
           <Route path="certificate/:userUID" element={<Certificate />}></Route>
-          <Route path="user/:userslug/:imagename" element={<ShareCertificate />}></Route>
+          {/* <Route path="user/:userslug/:imagename" element={<ShareCertificate />}></Route> */}
           <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>
       </BrowserRouter>
