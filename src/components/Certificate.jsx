@@ -32,8 +32,6 @@ const Certificate = () => {
   const imageName = userInfoForStore.name + '_certificate_' + Date.now() + '.png'
   const imageRef = ref(storageRef, imageName)
 
-  console.log(location)
-  console.log(params)
   // generate image
   useEffect(() => {
     if (isLoadedCertificate && isUserPhotoLoad) {

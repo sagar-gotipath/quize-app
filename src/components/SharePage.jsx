@@ -10,6 +10,8 @@ function SharePage({ children }) {
 
   const pageUrl = process.env.REACT_APP_APP_BASE_URL + location.pathname
 
+  console.log(pageUrl)
+
   function copyURL() {
     window.navigator?.clipboard.writeText(pageUrl)
   }
