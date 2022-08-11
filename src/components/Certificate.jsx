@@ -8,11 +8,12 @@ import { useRef } from 'react'
 import { useContext } from 'react'
 import { useLocation, Link, useParams } from 'react-router-dom'
 import { AppContext } from '../App'
-import { db } from '../firebase.config'
+import { db, storageRef } from '../firebase.config'
 import Button from './Button'
 import CenterWrapper from './CenterWrapper'
 import SharePage from './SharePage'
 import { Helmet } from 'react-helmet'
+import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 
 const Certificate = () => {
   const location = useLocation()
@@ -26,7 +27,10 @@ const Certificate = () => {
   const [isLoadedCertificate, setIsLoadedCertificate] = useState(false)
   const [isUserPhotoLoad, setUserPhotoLoad] = useState(false)
 
-  const imageName = userInfoForStore.name + '_certificate_' + Date.now()
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null)
+
+  const imageName = userInfoForStore.name + '_certificate_' + Date.now() + '.png'
+  const imageRef = ref(storageRef, imageName)
 
   console.log(location)
   console.log(params)
@@ -37,6 +41,12 @@ const Certificate = () => {
         .toPng(imageNode.current)
         .then((dataUrl) => {
           setCertficateData(dataUrl)
+
+          uploadString(imageRef, dataUrl, 'data_url').then((snapshot) => {
+            getDownloadURL(imageRef).then((url) => {
+              setUploadedImageUrl(url)
+            })
+          })
         })
         .catch((err) => {
           console.log('image error', err)
@@ -44,41 +54,30 @@ const Certificate = () => {
     }
   }, [isLoadedCertificate, isUserPhotoLoad])
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     domtoimage
-  //       .toPng(imageNode.current)
-  //       .then((dataUrl) => {
-  //         setCertficateData(dataUrl)
-  //       })
-  //       .catch((err) => {
-  //         console.log('image error', err)
-  //       })
-  //   }, 500)
-  // }, [])
+  useEffect(() => {
+    // save user info into firestore
+    const saveInDb = async (userData) => {
+      try {
+        setIsUserInfoSaved(false)
+        setIsError(false)
+        const docRef = await addDoc(collection(db, 'users'), {
+          name: userData.name,
+          phoneNumber: userData.phoneNumber,
+          imageUrl: uploadedImageUrl,
+          uid: params,
+        })
 
-  // useEffect(() => {
-  //   // save user info into firestore
-  //   const saveInDb = async (userData) => {
-  //     try {
-  //       setIsUserInfoSaved(false)
-  //       setIsError(false)
-  //       const docRef = await addDoc(collection(db, 'users'), {
-  //         name: userData.name,
-  //         phoneNumber: userData.phoneNumber,
-  //         imageUrl: imageName,
-  //       })
-  //       console.log(docRef.id)
-  //       setIsUserInfoSaved(true)
-  //     } catch (e) {
-  //       console.error('Error adding document: ', e)
-  //       setIsError(true)
-  //     }
-  //   }
-  //   if (userInfoForStore.phoneNumber !== '') {
-  //     saveInDb(userInfoForStore)
-  //   }
-  // }, [])
+        setIsUserInfoSaved(true)
+      } catch (e) {
+        console.error('Error adding document: ', e)
+        setIsError(true)
+      }
+    }
+
+    if (uploadedImageUrl !== null) {
+      saveInDb(userInfoForStore)
+    }
+  }, [uploadedImageUrl])
 
   return (
     <>
@@ -88,7 +87,7 @@ const Certificate = () => {
         <link rel="canonical" href={process.env.REACT_APP_APP_BASE_URL} />
         <meta name="description" content="quiz" />
         <meta property="og:title" content="15th august quiz." />
-        <meta property="og:image" content="/assets/images/sagar_certificate.png" />
+        <meta property="og:image" content={uploadedImageUrl} />
       </Helmet>
 
       {/* main content */}
@@ -114,7 +113,9 @@ const Certificate = () => {
               <img
                 src={userInfoForStore.userPhoto || '/assets/images/avatar-cropped.svg'}
                 alt="quiz participant"
-                className="absolute w-[130px] h-[130px] object-cover rounded-full top-14 left-12"
+                className="absolute w-[120px] h-[120px] object-cover rounded-full top-14 left-16"
+                width="120"
+                height="120"
                 onLoad={() => setUserPhotoLoad(true)}
               />
             </div>
@@ -134,10 +135,10 @@ const Certificate = () => {
               </div>
               <div>
                 <SharePage>
-                  <Button className="flex items-center justify-center bg-blue-800">
+                  <span className="flex items-center justify-center bg-blue-800 text-center text-white w-[250px] py-2.5 rounded-3xl mx-auto  transition ">
                     শেয়ার করুন
                     <img src="/assets/images/share_icon.svg" alt="share icon" className="w-4 inline-block ml-1.5" />
-                  </Button>
+                  </span>
                 </SharePage>
               </div>
             </>

@@ -69,10 +69,10 @@ const UserForm = () => {
             value={userInfo.phoneNumber}
             onChange={handleChange}
             placeholder="ফোন নাম্বার"
-            pattern="\d*"
+            pattern="01\d*"
             maxLength="11"
             minLength="11"
-            onInvalid={(e) => e.target.setCustomValidity('Enter your 11 digit phone number')}
+            onInvalid={(e) => e.target.setCustomValidity('Please insert a valid phone number.')}
             onInput={(e) => e.target.setCustomValidity('')}
             required
             className="relative w-full px-8 py-3 placeholder-transparent transition border border-neutral-400 rounded-3xl focus:outline-none peer"
