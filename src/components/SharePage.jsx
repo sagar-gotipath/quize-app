@@ -2,13 +2,14 @@ import { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { FiFacebook, FiLink, FiShare2, FiTwitch, FiTwitter } from 'react-icons/fi'
 import { useLocation } from 'react-router-dom'
+import { appBaseUrl } from '../lib/config'
 
 function SharePage({ children }) {
   const location = useLocation()
 
   const [hasNativeShare, setHasNativeShare] = useState(false)
 
-  const pageUrl = process.env.REACT_APP_APP_BASE_URL + location.pathname
+  const pageUrl = appBaseUrl + location.pathname
 
   console.log(pageUrl)
 
